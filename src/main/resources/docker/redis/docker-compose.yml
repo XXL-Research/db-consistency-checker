@@ -1,0 +1,51 @@
+version: '3'
+services:
+    master:
+        image: redis:4.0.7-alpine
+        container_name: master
+        command: redis-server --port 6379 --appendonly yes
+        ports:
+            - 6379:6379
+    slave-1:
+        image: redis:4.0.7-alpine
+        container_name: slave1
+        ports:
+            - 6380:6380
+        command: redis-server --port 6380 --appendonly yes --slaveof master 6379
+        links:
+            - master
+    slave-2:
+        image: redis:4.0.7-alpine
+        container_name: slave2
+        ports:
+            - 6381:6381
+        command: redis-server --port 6381 --appendonly yes --slaveof master 6379
+        links:
+            - master
+    sentinel-1:
+        image: lgatica/redis-sentinel
+        container_name: sentinel-1
+        ports:
+            - 26379:26379
+        depends_on:
+            - master
+        links:
+            - master
+    sentinel-2:
+        image: lgatica/redis-sentinel
+        container_name: sentinel-2
+        ports:
+            - 26380:26379
+        depends_on:
+            - slave-1
+        links:
+            - slave-1
+    sentinel-3:
+        image: lgatica/redis-sentinel 
+        container_name: sentinel-3
+        ports:
+            - 26381:26379
+        depends_on:
+            - slave-2
+        links:
+            - slave-2

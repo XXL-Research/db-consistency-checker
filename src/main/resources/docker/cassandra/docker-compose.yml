@@ -1,0 +1,71 @@
+version: '3'
+services:
+    node1:
+        image: cassandra:3.11.1
+        container_name: node1
+        command: bash -c '/docker-entrypoint.sh cassandra -f'
+        networks:
+            - clusternet
+        environment:
+            - CASSANDRA_CLUSTER_NAME=cassandra_cluster
+            - CASSANDRA_SEEDS=node1
+        expose:
+            - 7000
+            - 7001
+            - 7199
+            - 9042
+            - 9160
+        ulimits:
+            memlock: -1
+            nproc: 32768
+            nofile: 100000
+        ports:
+            - 9042:9042
+    node2:
+        image: cassandra:3.11.1
+        container_name: node2
+        command: bash -c 'sleep 60 && /docker-entrypoint.sh cassandra -f'
+        networks:
+            - clusternet
+        environment:
+            - CASSANDRA_CLUSTER_NAME=cassandra_cluster
+            - CASSANDRA_SEEDS=node1
+        depends_on:
+              - node1
+        expose:
+            - 7000
+            - 7001
+            - 7199
+            - 9042
+            - 9160
+        ulimits:
+            memlock: -1
+            nproc: 32768
+            nofile: 100000
+        ports:
+            - 9142:9042
+    node3:
+        image: cassandra:3.11.1
+        container_name: node3
+        command: bash -c 'sleep 120 && /docker-entrypoint.sh cassandra -f'
+        networks:
+            - clusternet
+        environment:
+            - CASSANDRA_CLUSTER_NAME=cassandra_cluster
+            - CASSANDRA_SEEDS=node1
+        depends_on:
+              - node1
+        expose:
+            - 7000
+            - 7001
+            - 7199
+            - 9042
+            - 9160
+        ulimits:
+            memlock: -1
+            nproc: 32768
+            nofile: 100000
+        ports:
+            - 9242:9042
+networks:
+    clusternet:

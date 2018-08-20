@@ -1,0 +1,18 @@
+{
+	"ClusterIP": "192.168.99.100",
+	"ClusterPorts": [9042, 9142, 9242],
+	"ConsistencyModel": "MWC",
+	"ConsistencyModelConfig":
+	{
+		"MWCWrite": true,
+		"NumberOfTests": 100000
+	},
+	"Database": "Cassandra",
+	"DatabaseConfig":
+	{
+		"ReplicationStrategy": "XYZ",
+		"ReplicationFactor": "3",
+		"WriteConsistencyLevel": "ALL",
+		"ReadConsistencyLevel": "ALL"
+	}
+}

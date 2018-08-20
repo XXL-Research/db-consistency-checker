@@ -1,0 +1,144 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+  	<groupId>ConsistencyChecker</groupId>
+  	<artifactId>ConsistencyChecker</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<packaging>jar</packaging>
+  	<name>ConsistencyChecker</name>
+  
+  	<properties>
+  		<version.jdk>1.8</version.jdk> 
+		<version.junit>4.12</version.junit>
+		<version.mockito>2.10.0</version.mockito>
+		<version.hamcrest>1.3</version.hamcrest>
+		<version.cassandra-driver>3.3.0</version.cassandra-driver>
+		<version.mongodb-driver>3.6.0</version.mongodb-driver>
+		<version.redisson>3.6.0</version.redisson>
+		<version.sl4j>1.7.25</version.sl4j>
+		<version.log4j>2.9.1</version.log4j>
+		<version.commons-cli>1.4</version.commons-cli>
+	</properties>
+
+	<dependencies>
+		<dependency>
+    		<groupId>org.hamcrest</groupId>
+    		<artifactId>hamcrest-all</artifactId>
+    		<version>${version.hamcrest}</version>
+    		<scope>test</scope>
+		</dependency>
+		<dependency>
+   	 	<groupId>org.mockito</groupId>
+    		<artifactId>mockito-core</artifactId>
+    		<version>${version.mockito}</version>
+    		<scope>test</scope>
+		</dependency>
+		<dependency>
+    		<groupId>junit</groupId>
+    		<artifactId>junit</artifactId>
+    		<version>${version.junit}</version>
+    		<scope>test</scope>
+		</dependency>
+		<dependency>
+    		<groupId>com.datastax.cassandra</groupId>
+    		<artifactId>cassandra-driver-core</artifactId>
+    		<version>${version.cassandra-driver}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.slf4j</groupId>
+    		<artifactId>slf4j-log4j12</artifactId>
+    		<version>${version.sl4j}</version>
+    		<scope>test</scope>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-core</artifactId>
+    		<version>${version.log4j}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-api</artifactId>
+    		<version>${version.log4j}</version>
+		</dependency>
+		<dependency>
+    		<groupId>commons-cli</groupId>
+    		<artifactId>commons-cli</artifactId>
+    		<version>${version.commons-cli}</version>
+		</dependency>
+    	<dependency>
+        	<groupId>org.mongodb</groupId>
+        	<artifactId>mongodb-driver</artifactId>
+        	<version>${version.mongodb-driver}</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>org.json</groupId>
+    		<artifactId>json</artifactId>
+    		<version>20171018</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.redisson</groupId>
+    		<artifactId>redisson</artifactId>
+    		<version>${version.redisson}</version>
+		</dependency>
+	</dependencies>
+  
+	<build>
+		<plugins>
+
+			<!-- Set a JDK compiler level -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${version.jdk}</source>
+					<target>${version.jdk}</target>
+				</configuration>
+			</plugin>
+
+			<!-- Make this jar executable -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+				  <!-- DO NOT include log4j.properties file in your Jar -->
+				  <excludes>
+					<exclude>**/log4j2.xml</exclude>
+				  </excludes>
+				  <archive>
+					<manifest>  
+						<!-- Jar file entry point -->
+						<mainClass>de.htwk.imn.consistencychecker.Main</mainClass>
+					</manifest>
+				  </archive>
+				</configuration>
+			</plugin>
+			
+			<!-- Jar with all dependencies -->
+			<plugin>
+      			<artifactId>maven-assembly-plugin</artifactId>
+      			<executions>
+          			<execution>
+            			<phase>package</phase>
+            			<goals>
+              				<goal>single</goal>
+            			</goals>
+          			</execution>
+        		</executions>
+      			<configuration>
+      				<finalName>conchecker</finalName>
+        			<archive>
+          				<manifest>
+            				<mainClass>de.htwk.imn.consistencychecker.Main</mainClass>
+          				</manifest>
+        			</archive>
+        			<descriptorRefs>
+          				<descriptorRef>jar-with-dependencies</descriptorRef>
+        			</descriptorRefs>
+        			<appendAssemblyId>false</appendAssemblyId>
+      			</configuration>
+   			</plugin>
+
+		</plugins>
+	</build>
+</project>

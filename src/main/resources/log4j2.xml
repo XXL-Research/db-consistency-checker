@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" debug="false">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+		</Console>
+		<File name="RYWCLogFile" fileName="logs/RYWC.log" createOnDemand="true">
+        	<PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    	</File>
+    	<File name="MWCLogFile" fileName="logs/MWC.log" createOnDemand="true">
+        	<PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    	</File>
+    	<File name="MRCLogFile" fileName="logs/MRC.log" createOnDemand="true">
+        	<PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    	</File>
+	</Appenders>
+	<Loggers>
+		<Root level="all">
+			<AppenderRef ref="Console" level="all"/>
+		</Root>
+		<Logger name="de.htwk.imn.consistencychecker.ReadYourWritesConsistencyChecker" level="all">
+      		<AppenderRef ref="RYWCLogFile"/>
+    	</Logger>
+    	<Logger name="de.htwk.imn.consistencychecker.MonotonicWriteConsistencyChecker" level="all">
+      		<AppenderRef ref="MWCLogFile"/>
+    	</Logger>
+    	<Logger name="de.htwk.imn.consistencychecker.MonotonicReadConsistencyChecker" level="all">
+      		<AppenderRef ref="MRCLogFile"/>
+    	</Logger>
+	</Loggers>
+</Configuration>

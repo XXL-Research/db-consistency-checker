@@ -1,0 +1,18 @@
+{
+	"ClusterIP": "192.168.99.100",
+	"ClusterPorts": [26379, 26380, 26381],
+	"ConsistencyModel": "MWC",
+	"ConsistencyModelConfig":
+	{
+		"MWCWrite": true,
+		"NumberOfTests": 100000
+	},
+	"Database": "Redis",
+	"DatabaseConfig":
+	{
+		"Replication": "synchron",
+		"numslaves": 1,
+		"timeout": 60,
+		"ReadMode": "XYZ"
+	}
+}

@@ -1,0 +1,30 @@
+{
+	"ClusterIP": "192.168.99.100",
+	"ClusterPorts": [27017, 27018, 27019],
+	"ConsistencyModel": "MWC",
+	"ConsistencyModelConfig":
+	{
+		"MWCWrite": true,
+		"NumberOfTests": 100000
+	},
+	"Database": "MongoDB",
+	"DatabaseConfig":
+	{
+		"WriteConcern":
+		{
+			"w": "majority",
+			"j": true,
+			"wtimeout": 3000
+		},
+		"ReadConcern":
+		{
+			"level": "majority",
+			"causalConsistent": false
+		},
+		"ReadPreference":
+		{
+			"mode": "abc",
+			"maxStalenessSeconds": 90
+		}
+	}
+}

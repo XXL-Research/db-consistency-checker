@@ -1,0 +1,42 @@
+version: '3'
+services:
+    mongo1:
+        hostname: mongo1
+        container_name: mongo1
+        image: mongo:3.6.0
+        command: [ "mongod", "--replSet", "mongo-set", "--port", "27017" ]
+        ports:
+            - 27017:27017
+        networks:
+            - cluster
+    mongo2:
+        hostname: mongo2
+        container_name: mongo2
+        image: mongo:3.6.0
+        command: [ "mongod", "--replSet", "mongo-set", "--port", "27018" ]
+        ports:
+            - 27018:27018
+        networks:
+            - cluster
+    mongo3:
+        hostname: mongo3
+        container_name: mongo3
+        image: mongo:3.6.0
+        command: [ "mongod", "--replSet", "mongo-set", "--port", "27019" ]
+        ports:
+            - 27019:27019
+        networks:
+            - cluster
+    mongosetup:
+        image: mongo:3.6.0
+        container_name: mongosetup
+        depends_on:
+            - mongo1
+            - mongo2
+            - mongo3
+        volumes:
+            - //C/Users/Path/To/replicaConfig.js:/scripts
+        command: [ "mongo", "--host", "172.21.0.1", "--port", "27017", "/scripts/replicaConfig.js" ]
+
+networks:
+    cluster:
